@@ -1,3 +1,4 @@
+// Helpful function for creating & appending elements
 const appendToDiv = (elementName, parentSelector) => {
     const element = document.createElement(elementName)
     const parent = document.querySelector(parentSelector)
