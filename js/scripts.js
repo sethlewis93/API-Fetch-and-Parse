@@ -38,18 +38,17 @@ function getJSON(url) {
     xhr.onload = function () {
         if(xhr.readyState === XMLHttpRequest.DONE) {
             const status = xhr.status;
-            if (status === 0 || (status >= 200 && status < 400)) {
-              // The request has been completed successfully
+            if (xhr.readyState ===4 && status === 200) {
               let data = JSON.parse(xhr.responseText);
-              return data
+              console.log(data)
             }
         }
     };
     xhr.send();
 }
 
-headerText.addEventListener('click', () => {
-    // getJSON(studentData);
+document.addEventListener('DOMContentLoaded', () => {
+    //testing that the data will load to the page
     generateHTML(getJSON(studentData))
 });
 
@@ -63,7 +62,7 @@ search
     </form>
 `);
 
-// Search filter function
+// Search filter function under construction
 const searchFeature = (data) => {
     // get the data from the page
     data.filter(student => {
@@ -76,8 +75,3 @@ const searchFeature = (data) => {
     });   
 };
 
-
-
-// searchFeature(getJSON(studentData, (json) => {
-//     console.log(json)
-// }));
