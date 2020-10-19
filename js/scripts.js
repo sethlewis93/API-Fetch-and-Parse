@@ -1,16 +1,10 @@
-// Helpful function for creating & appending elements
-const newElement = (elementName, parentSelector) => {
-    const element = document.createElement(elementName)
-    // Not particularly fond of using querySelector below. Refactor later.
-    const parent = document.querySelector(parentSelector)
-    parent.appendChild(element);
-    return element;
-};
 
+const search = document.querySelector('.search-container')
 const gallery = document.querySelector('.gallery');
+const headerText = document.querySelector('.header-text-container');
 
 // HOW CAN I MAKE THE RESULTS NUMBER DYNAMIC? IS THAT EVEN WORTHWHILE?
-const studentData = 'http://randomuser.me/api/1.3/?results=12';
+const studentData = 'https://randomuser.me/api/?results=12&nat=us';
 
 // Generate the markup for each profile
 /**
@@ -36,10 +30,9 @@ const studentData = 'http://randomuser.me/api/1.3/?results=12';
       <p class="card-text cap">${data.results.city}, ${data.results.state}</p>
       </div>
     `);
-}
+};
 
-
-function getJSON(url, callback) { 
+function getJSON(url) { 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url);
     xhr.onload = function () {
@@ -48,22 +41,43 @@ function getJSON(url, callback) {
             if (status === 0 || (status >= 200 && status < 400)) {
               // The request has been completed successfully
               let data = JSON.parse(xhr.responseText);
-              return callback(data);
+              return data
             }
         }
     };
     xhr.send();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    getJSON(studentData, (json) => {
-       json.results.map(student => {
-           getJSON(student.first + student.last, generateHTML);
-       });
-    });
+headerText.addEventListener('click', () => {
+    // getJSON(studentData);
+    generateHTML(getJSON(studentData))
 });
 
 
 // Search feature in progress
-const search = newElement('form', '.search-container');
-search.insertAdjacentHTML('afterbegin', '<input type="search" id="search-input" class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">');
+search
+.insertAdjacentHTML('afterbegin', `
+    <form action="#" method="get">                        
+    <input type="search" id="search-input" 
+    class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+    </form>
+`);
+
+// Search filter function
+const searchFeature = (data) => {
+    // get the data from the page
+    data.filter(student => {
+        if (search.value.length !== 0) {
+            let userSearch = search.value.toLowerCase();
+            if (student.first.includes(userSearch) || student.last.includes(userSearch)) { 
+                return data
+            }
+        }
+    });   
+};
+
+
+
+// searchFeature(getJSON(studentData, (json) => {
+//     console.log(json)
+// }));
