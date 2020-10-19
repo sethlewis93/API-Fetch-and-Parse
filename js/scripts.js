@@ -19,37 +19,47 @@ const studentData = 'https://randomuser.me/api/?results=12&nat=us';
  */
 
  function generateHTML(data) {
-    const card = document.createElement('div');
-    gallery.appendChild(card);
-    card.className = 'card';
-    card.insertAdjacentHTML( `
-      <div class="card-img-container"> <img class="card-img" src=${data.results.picture.thumbnail} alt="profile picture">
-      </div>
-      <div class="card-info-container"> <h3 id="name" class="card-name cap">${data.results.first} ${data.results.last}</h3>
-      <p class="card-text">${data.results.email}</p>
-      <p class="card-text cap">${data.results.city}, ${data.results.state}</p>
-      </div>
-    `);
+    data.map(student => {
+        const card = document.createElement('div');
+        gallery.appendChild(card);
+        card.className = 'card';
+        card.insertAdjacentHTML( `
+          <div class="card-img-container"> <img class="card-img" src=${student.results.picture.thumbnail} alt="profile picture">
+          </div>
+          <div class="card-info-container"> <h3 id="name" class="card-name cap">${student.results.first} ${student.results.last}</h3>
+          <p class="card-text">${student.results.email}</p>
+          <p class="card-text cap">${student.results.city}, ${student.results.state}</p>
+          </div>
+        `);
+    });
 };
 
 function getJSON(url) { 
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.onload = function () {
-        if(xhr.readyState === XMLHttpRequest.DONE) {
-            const status = xhr.status;
-            if (xhr.readyState ===4 && status === 200) {
-              let data = JSON.parse(xhr.responseText);
-              console.log(data)
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.onload = function () {
+            if(xhr.readyState === XMLHttpRequest.DONE) {
+                const status = xhr.status;
+                if (status === 200) {
+                  let data = JSON.parse(xhr.responseText);
+                  resolve(data);
+                  console.log('second');
+                } else {
+                    reject(Error(xhr.responseText));
+                }
             }
-        }
-    };
-    xhr.send();
-}
+        };   
+        xhr.onerror = () => reject(Error('A network error occurred'));
+        xhr.send();
+    });
+};
 
 document.addEventListener('DOMContentLoaded', () => {
-    //testing that the data will load to the page
-    generateHTML(getJSON(studentData))
+    getJSON(studentData)
+        .then(generateHTML)
+        .catch(err => console.log(err));
+    console.log('third');
 });
 
 
