@@ -19,6 +19,7 @@ const studentData = 'https://randomuser.me/api/?results=12&nat=us';
  */
 
  function generateHTML(data) {
+    console.log(typeof data)
     data.map(student => {
         const card = document.createElement('div');
         gallery.appendChild(card);
@@ -44,7 +45,6 @@ function getJSON(url) {
                 if (status === 200) {
                   let data = JSON.parse(xhr.responseText);
                   resolve(data);
-                  console.log('second');
                 } else {
                     reject(Error(xhr.responseText));
                 }
@@ -59,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
     getJSON(studentData)
         .then(generateHTML)
         .catch(err => console.log(err));
-    console.log('third');
 });
 
 
