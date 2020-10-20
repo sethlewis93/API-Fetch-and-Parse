@@ -4,7 +4,6 @@ const gallery = document.querySelector('.gallery');
 const headerText = document.querySelector('.header-text-container');
 
 const studentData = 'https://randomuser.me/api/?results=12&nat=us';
-let students = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     fetch(studentData)
@@ -14,14 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(err => console.log(err));
 });
 
-
-/**
- * 
- * @param {*} data is the JSON retrieved from API call. Data is then 
- * dynamically appended to DOM
- */
-
- function generateHTML(data) {
+ const generateHTML = (data) => {
     data.map(student => {
         const card = document.createElement('div');
         gallery.appendChild(card);
@@ -37,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 };
 
-/*
+
 // Search feature in progress
 search
     .insertAdjacentHTML('afterbegin', `
@@ -45,8 +37,9 @@ search
         <input type="search" id="search-input" 
         class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
         </form>
-        `);
+`);
 
+/*
 // Search filter function under construction
 const searchFeature = (data) => {
     // get the data from the page
