@@ -8,11 +8,8 @@ let students = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     fetch(studentData)
-        .then(response => {
-            const results = response.json();
-            students.push(results);
-            console.log(students);
-        })
+        .then(response => response.json())
+        .then(data => data.results)
         .then(generateHTML)
         .catch(err => console.log(err));
 });
@@ -22,28 +19,22 @@ document.addEventListener('DOMContentLoaded', () => {
  * 
  * @param {*} data is the JSON retrieved from API call. Data is then 
  * dynamically appended to DOM
- * 
-    Image
-    First and Last Name
-    Email
-    City or location
  */
 
  function generateHTML(data) {
-    const profiles = data.map(student => {
+    data.map(student => {
         const card = document.createElement('div');
         gallery.appendChild(card);
         card.className = 'card';
-        card.insertAdjacentHTML( `
+        card.insertAdjacentHTML( 'beforeend',`
           <div class="card-img-container"> <img class="card-img" src=${student.picture.thumbnail} alt="profile picture">
           </div>
-          <div class="card-info-container"> <h3 id="name" class="card-name cap">${student.first} ${student.last}</h3>
-          <p class="card-text">${student.email}</p>
-          <p class="card-text cap">${student.city}, ${student.state}</p>
+          <div class="card-info-container"> <h3 id="name" class="card-name cap">${student.name.first} ${student.name.last}</h3>
+          <p class="card-text" style="color:#00833f;">${student.email}</p>
+          <p class="card-text cap">${student.location.city}, ${student.location.state}</p>
           </div>
         `);
     });
-    return profiles;
 };
 
 /*

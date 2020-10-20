@@ -30,8 +30,10 @@ header {
 
 header h1 {
     font-size: 1.25em;
-    color: rgba(50, 50, 50, 0.9);
+    /* color: rgba(50, 50, 50, 0.9); */
     margin-top: 35px;
+    color: #002f6d;
+    font-weight: 600;
 }
 
 .search-input {
