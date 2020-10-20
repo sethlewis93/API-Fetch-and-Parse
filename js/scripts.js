@@ -3,21 +3,21 @@ const search = document.querySelector('.search-container')
 const gallery = document.querySelector('.gallery');
 const headerText = document.querySelector('.header-text-container');
 
-// HOW CAN I MAKE THE RESULTS NUMBER DYNAMIC? IS THAT EVEN WORTHWHILE?
 const studentData = 'https://randomuser.me/api/?results=12&nat=us';
 let students = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     fetch(studentData)
         .then(response => {
-            students.push(response.json());
+            const results = response.json();
+            students.push(results);
+            console.log(students);
         })
         .then(generateHTML)
         .catch(err => console.log(err));
 });
 
 
-// Generate the markup for each profile
 /**
  * 
  * @param {*} data is the JSON retrieved from API call. Data is then 
@@ -30,41 +30,23 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 
  function generateHTML(data) {
-    data.map(student => {
+    const profiles = data.map(student => {
         const card = document.createElement('div');
         gallery.appendChild(card);
         card.className = 'card';
         card.insertAdjacentHTML( `
-          <div class="card-img-container"> <img class="card-img" src=${student.results.picture.thumbnail} alt="profile picture">
+          <div class="card-img-container"> <img class="card-img" src=${student.picture.thumbnail} alt="profile picture">
           </div>
-          <div class="card-info-container"> <h3 id="name" class="card-name cap">${student.results.first} ${student.results.last}</h3>
-          <p class="card-text">${student.results.email}</p>
-          <p class="card-text cap">${student.results.city}, ${student.results.state}</p>
+          <div class="card-info-container"> <h3 id="name" class="card-name cap">${student.first} ${student.last}</h3>
+          <p class="card-text">${student.email}</p>
+          <p class="card-text cap">${student.city}, ${student.state}</p>
           </div>
         `);
     });
+    return profiles;
 };
 
-// function getJSON(url) { 
-//     return new Promise((resolve, reject) => {
-//         const xhr = new XMLHttpRequest();
-//         xhr.open('GET', url);
-//         xhr.onload = function () {
-//             if(xhr.readyState === XMLHttpRequest.DONE) {
-//                 const status = xhr.status;
-//                 if (status === 200) {
-//                   let data = JSON.parse(xhr.responseText);
-//                   resolve(data);
-//                 } else {
-//                     reject(Error(xhr.responseText));
-//                 }
-//             }
-//         };   
-//         xhr.onerror = () => reject(Error('A network error occurred'));
-//         xhr.send();
-//     });
-// };
-
+/*
 // Search feature in progress
 search
     .insertAdjacentHTML('afterbegin', `
@@ -86,6 +68,7 @@ const searchFeature = (data) => {
         }
     });   
 };
+*/
 
 // Modal container under construction 
 /*
