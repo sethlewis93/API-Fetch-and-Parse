@@ -8,9 +8,9 @@ let students = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     fetch(studentData)
-        .then(response => {
-            const results = response.json();
-            students.push(results);
+        .then(response => response.json())
+        .then(data => {
+            students.push(data);
             console.log(students);
         })
         .then(generateHTML)
