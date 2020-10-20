@@ -3,31 +3,63 @@ const search = document.querySelector('.search-container')
 const gallery = document.querySelector('.gallery');
 const headerText = document.querySelector('.header-text-container');
 
-const studentData = 'https://randomuser.me/api/?results=12&nat=us';
+const employeeData = 'https://randomuser.me/api/?results=12&nat=us';
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetch(studentData)
+    fetch(employeeData)
         .then(response => response.json())
         .then(data => data.results)
-        .then(generateHTML)
+        .then(generateUsersHTML)
+        .then(generateModalHTML)
         .catch(err => console.log(err));
 });
 
- const generateHTML = (data) => {
-    data.map(student => {
+const generateUsersHTML = (data) => {
+    data.map(employee => {
         const card = document.createElement('div');
         gallery.appendChild(card);
         card.className = 'card';
-        card.insertAdjacentHTML( 'beforeend',`
-          <div class="card-img-container"> <img class="card-img" src=${student.picture.thumbnail} alt="profile picture">
+        card.insertAdjacentHTML('beforeend', `
+          <div class="card-img-container"> <img class="card-img" src=${employee.picture.thumbnail} alt="profile picture">
           </div>
-          <div class="card-info-container"> <h3 id="name" class="card-name cap">${student.name.first} ${student.name.last}</h3>
-          <p class="card-text" style="color:#00833f;">${student.email}</p>
-          <p class="card-text cap">${student.location.city}, ${student.location.state}</p>
+          <div class="card-info-container"> <h3 id="name" class="card-name cap">${employee.name.first} ${employee.name.last}</h3>
+          <p class="card-text" style="color:#00833f;">${employee.email}</p>
+          <p class="card-text cap">${employee.location.city}, ${employee.location.state}</p>
           </div>
         `);
     });
 };
+
+const generateModalHTML = (data) =>{
+    data.map(employee => {
+        const modal = document.createElement('div');
+        gallery.appendChild(modal);
+        modal.className = 'modal-container';
+        modal.insertAdjacentHTML('beforeend', `
+        <div class="modal">
+            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+            <div class="modal-info-container">
+                <img class="modal-img" src="${employee.picture.thumbnail}" alt="profile picture">
+                <h3 id="name" class="modal-name cap">${employee.name.first} ${employee.name.last}</h3>
+                <p class="modal-text">${employee.email}</p>
+                <p class="modal-text cap">${employee.location.city}</p>
+                <hr>
+                <p class="modal-text">${employee.cell}</p>
+                <p class="modal-text">${employee.location.street} ${employee.location.city} ,${employee.location.state} ${employee.location.postcode}</p>
+                <p class="modal-text">${employee.dob.date}</p>
+            </div>
+        </div>
+        `)
+    })
+}
+
+
+
+gallery.addEventListener('click', (e) => {
+    if (e.target.className.includes('card')) {
+       generateModalHTML();
+    };
+});
 
 
 // Search feature in progress
@@ -43,14 +75,14 @@ search
 // Search filter function under construction
 const searchFeature = (data) => {
     // get the data from the page
-    data.filter(student => {
+    data.filter(employee => {
         if (search.value.length !== 0) {
             let userSearch = search.value.toLowerCase();
-            if (student.first.includes(userSearch) || student.last.includes(userSearch)) { 
+            if (employee.first.includes(userSearch) || employee.last.includes(userSearch)) {
                 return data
             }
         }
-    });   
+    });
 };
 */
 
@@ -72,7 +104,7 @@ gallery.insertAdjacentHTML('beforeend', `
                     <p class="modal-text">Birthday: 10/13/1993</p>
                 </div>
             </div>
-            
+
             <div class="modal-btn-container">
                         <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
                         <button type="button" id="modal-next" class="modal-next btn">Next</button>
