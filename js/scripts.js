@@ -56,7 +56,7 @@ function addModalListeners(data) {
     gallery.addEventListener('click', (e) => {
         let clicked = e.target;
         console.log(clicked)
-        const selection = data.filter(employee => {
+        const selection = data.find(employee => {
             if (clicked === employee) {
                 generateModalHTML(employee)
             }
