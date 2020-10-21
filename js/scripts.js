@@ -83,6 +83,30 @@ search
         </form>
 `);
 
+// SEARCH 
+const searchFeature2 = () => {
+    const cards = document.getElementsByClassName('card');
+    let searchInput = document.getElementById('search-input');
+    let employeeCard = document.getElementsByClassName('card info container');
+    console.log(employeeCard.textContent)
+    let matches = [];
+    for (let i = 0; i < cards.length; i++) {
+        if (searchInput.value.length !== 0) {
+            searchInput.value.toLowerCase(); 
+          if (employeeCard.textContent.includes(searchInput.value)) {
+            matches.push(cards[i]);
+          }
+        }
+      }
+      if (matches.length === 0) {
+      gallery.insertAdjacentHTML('afterbegin', `<h3>Sorry - your search yeilded no matches`);
+      } else {
+        gallery.insertAdjacentHTML('afterbegin', `${matches}`);
+      }
+}
+
+search.addEventListener('input', searchFeature2);
+
 /*
 // Search filter function under construction
 const searchFeature = (data) => {
