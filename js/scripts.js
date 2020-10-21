@@ -55,13 +55,11 @@ const generateModalHTML = (employee) => {
 function addModalListeners(data) {
     gallery.addEventListener('click', (e) => {
         let clicked = e.target;
-        console.log(clicked)
-        const selection = data.find(employee => {
-            if (clicked === employee) {
+        data.find(employee => {
+            if (clicked) {
                 generateModalHTML(employee)
             }
         })
-        return selection;
     });
 }
 
