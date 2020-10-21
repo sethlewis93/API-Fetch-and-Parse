@@ -55,21 +55,23 @@ const generateModalHTML = (employee) => {
 function addModalListeners(data) {
     gallery.addEventListener('click', (e) => {
         const clicked = e.target;
+        console.log(clicked);
         data.find(employee => {
             if (clicked) {
                 generateModalHTML(employee)
+                
             }
         })
     });
-}
+};
 
 gallery.addEventListener('click', (e) => {
     const exitBtn = document.getElementById('modal-close-btn');
-    if (e.target === exitBtn) {
-        console.log('clicked')
-        document.querySelector(".modal-info-container").remove();
+    const clicked = e.target;
+    if (exitBtn === clicked) {
+        document.getElementsByClassName("modal-info-container").remove();
     }
-})
+});
 
 
 // Search feature in progress
