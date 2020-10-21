@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => data.results)
         .then(generateUsersHTML)
-        .then(generateModalHTML)
+        .then(modalWindow)
         .catch(err => console.log(err));
 });
 
@@ -52,14 +52,15 @@ const generateModalHTML = (employee) => {
     `)
 }
 
-
-
-gallery.addEventListener('click', (e) => {
-    const clicked = e.target;
-    if (clicked.className.includes('card')) {
-       generateModalHTML(generateUsersHTML)
-    };
-});
+function modalWindow(data) {
+    gallery.addEventListener('click', (e) => {
+        const clicked = e.target;
+        if (clicked.className.includes('card')) {
+            generateModalHTML(data)
+        };
+    });
+    
+}
 
 
 // Search feature in progress
