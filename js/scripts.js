@@ -28,36 +28,36 @@ const generateUsersHTML = (data) => {
           </div>
         `);
     });
+    return data;
 };
 
-const generateModalHTML = (data) =>{
-    data.map(employee => {
-        const modal = document.createElement('div');
-        gallery.appendChild(modal);
-        modal.className = 'modal-container';
-        modal.insertAdjacentHTML('beforeend', `
-        <div class="modal">
-            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-            <div class="modal-info-container">
-                <img class="modal-img" src="${employee.picture.thumbnail}" alt="profile picture">
-                <h3 id="name" class="modal-name cap">${employee.name.first} ${employee.name.last}</h3>
-                <p class="modal-text">${employee.email}</p>
-                <p class="modal-text cap">${employee.location.city}</p>
-                <hr>
-                <p class="modal-text">${employee.cell}</p>
-                <p class="modal-text">${employee.location.street} ${employee.location.city} ,${employee.location.state} ${employee.location.postcode}</p>
-                <p class="modal-text">${employee.dob.date}</p>
-            </div>
+const generateModalHTML = (employee) => {
+    const modal = document.createElement('div');
+    gallery.appendChild(modal);
+    modal.className = 'modal-container';
+    modal.insertAdjacentHTML('beforeend', `
+    <div class="modal">
+        <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+        <div class="modal-info-container">
+            <img class="modal-img" src="${employee.picture.thumbnail}" alt="profile picture">
+            <h3 id="name" class="modal-name cap">${employee.name.first} ${employee.name.last}</h3>
+            <p class="modal-text">${employee.email}</p>
+            <p class="modal-text cap">${employee.location.city}</p>
+            <hr>
+            <p class="modal-text">${employee.cell}</p>
+            <p class="modal-text">${employee.location.street} ${employee.location.city} ,${employee.location.state} ${employee.location.postcode}</p>
+            <p class="modal-text">${employee.dob.date}</p>
         </div>
-        `)
-    })
+    </div>
+    `)
 }
 
 
 
 gallery.addEventListener('click', (e) => {
-    if (e.target.className.includes('card')) {
-       generateModalHTML();
+    const clicked = e.target;
+    if (clicked.className.includes('card')) {
+       generateModalHTML(generateUsersHTML)
     };
 });
 
