@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => data.results)
         .then(generateUsersHTML)
-        .then(modalWindow)
+        .then(addModalListeners)
         .catch(err => console.log(err));
 });
 
@@ -52,14 +52,17 @@ const generateModalHTML = (employee) => {
     `)
 }
 
-function modalWindow(data) {
+function addModalListeners(data) {
     gallery.addEventListener('click', (e) => {
-        const clicked = e.target;
-        if (clicked.className.includes('card')) {
-            generateModalHTML(data)
-        };
+        let clicked = e.target;
+        console.log(clicked)
+        const selection = data.filter(employee => {
+            if (clicked === employee) {
+                generateModalHTML(employee)
+            }
+        })
+        return selection;
     });
-    
 }
 
 
