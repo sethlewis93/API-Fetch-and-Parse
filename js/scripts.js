@@ -62,16 +62,16 @@ function addModalListeners(data) {
             const path = e.composedPath();
             const card = [...cards].filter(c => path.includes(c));  
             data.find(employee => {
-                if(card[0].textContent.includes(employee.name.last)) {
+                if(card[0].textContent.includes(employee.email)) {
                     generateModalHTML(employee);
-                    const modalContainer = document.querySelector('.modal-container');
                 }
             });
-            if (e.target.id === 'modal-close-btn') {
-                modalContainer.remove();
-            }
         } else {
             e.preventDefault();
+        }
+        const modalContainer = document.querySelector('.modal-container');
+        if (e.target.id === 'modal-close-btn') {
+            modalContainer.remove();
         }
     });
 };
