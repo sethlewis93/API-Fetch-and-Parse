@@ -7,25 +7,16 @@
 
 
 // SEARCH 
-const searchFeature2 = () => {
-    const cards = document.querySelectorAll('.card');
-    let searchInput = document.querySelector('#search-input')
-    let matches = [];
-    for (let i = 0; i < cards.length; i++) {
-        cards[i].style.display = "none";
-        let employeeName = document.querySelectorAll('#name');
-        if (searchInput.value.length !== 0) {
-            console.log(searchInput.value); 
-          if (employeeName.textContent.includes(searchInput.value)) {
-            matches.push(cards[i]);
-          }
-        }
-      }
-      if (matches.length === 0) {
-      gallery.insertAdjacentHTML('afterbegin', `<h3>Sorry - your search yeilded no matches`);
-      } else {
-        gallery.insertAdjacentHTML('afterbegin', `${matches}`);
-      }
+const searchFeature2 = (data) => {
+  data.map(emp => {
+    const firstName = emp.name.first;
+    const lastName = emp.name.last;
+    const fullName = `${firstName} ${lastName}`;
+
+    /*
+      if fullName is the same as user input - return the matching card for that fullName
+    */
+  })
 }
 
 search.addEventListener('input', searchFeature2);
