@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => data.results)
         .then(generateUsersHTML)
-        .then(searchFeature)
         .then(addModalListeners)
         .catch(err => console.log(err));
 });
@@ -56,6 +55,10 @@ const generateModalHTML = (employee) => {
             <p class="modal-text">${birthday}</p>
         </div>
     </div>
+    <div class="modal-btn-container">
+                    <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+                    <button type="button" id="modal-next" class="modal-next btn">Next</button>
+    </div>
     `)
 }
 
@@ -83,6 +86,12 @@ function addModalListeners(data) {
         }
         if (e.target.id === 'modal-close-btn') {
             modalContainer.remove();
+        }
+        if(e.target.id === 'modal-prev') {
+            console.log(e.composedPath());
+        }
+        if(e.target.id === 'modal-next') {
+            console.log(e.composedPath());
         }
     });
 };
