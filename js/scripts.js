@@ -34,6 +34,11 @@ const generateUsersHTML = (data) => {
 const generateModalHTML = (employee) => {
     const modal = document.createElement('div');
     gallery.appendChild(modal);
+
+    //DOB formatting solution found on stack overflow https://stackoverflow.com/questions/28271904/javascript-reformat-date-string
+    let DOBstamp = new Date(employee.dob.date);
+    const birthday = DOBstamp.getMonth( ) + 1 +'/'+ DOBstamp.getDate( ) + '/' +DOBstamp.getFullYear( );
+
     modal.className = 'modal-container';
     modal.insertAdjacentHTML('beforeend', `
     <div class="modal">
@@ -45,18 +50,19 @@ const generateModalHTML = (employee) => {
             <p class="modal-text cap">${employee.location.city}</p>
             <hr>
             <p class="modal-text">${employee.cell}</p>
-            <p class="modal-text">${employee.location.street} ${employee.location.city} ,${employee.location.state} ${employee.location.postcode}</p>
-            <p class="modal-text">${employee.dob.date}</p>
+            <p class="modal-text">${employee.location.city}, ${employee.location.state} ${employee.location.postcode}</p>
+            <p class="modal-text">${birthday}</p>
         </div>
     </div>
     `)
 }
 
 // still having trouble with the placement of the modal close button
+//  break this code up for readability
 function addModalListeners(data) {
     gallery.addEventListener('click', (e) => {
+        const modalContainer = document.querySelector('.modal-container');
         if (e.target.className.includes('card')) {
-            console.log(e.target);
             const cards = document.querySelectorAll('.card');
             // Credit to Robert Manolis for sharing composedPath and spread techniques below
             const path = e.composedPath();
@@ -64,12 +70,12 @@ function addModalListeners(data) {
             data.find(employee => {
                 if(card[0].textContent.includes(employee.email)) {
                     generateModalHTML(employee);
+                    console.log(employee);
                 }
             });
         } else {
             e.preventDefault();
         }
-        const modalContainer = document.querySelector('.modal-container');
         if (e.target.id === 'modal-close-btn') {
             modalContainer.remove();
         }
