@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => data.results)
         .then(generateUsersHTML)
+        .then(searchFeature)
         .then(addModalListeners)
         .catch(err => console.log(err));
 });
@@ -96,38 +97,28 @@ search
 `);
 
 // SEARCH 
-const searchFeature2 = () => {
-    const cards = document.querySelectorAll('.card');
 
-   for(let i =0; i < cards.length; i++) {
-    cards[i].style.display = 'none';
+const searchFeature = (employees) => {
+    console.log(employees);
+    employees.filter(emp => )
+    // const cards = document.querySelectorAll('.card');
 
-    const searchfield = document.querySelector('#search-input');
-    const userSearch = searchfield.value.toLowerCase(); 
+    // const firstName = employees.name.first;
+    // const lastName = employees.name.last;
 
-    if(cards[i].textContent.includes(userSearch)) {
-        cards[i].style.display = 'block';
-    }
+    // for(let i =0; i < cards.length; i++) {
+    //     cards[i].style.display = 'none';
 
-   }
-}
+    //     const searchfield = document.querySelector('#search-input');
+    //     const userSearch = searchfield.value.toLowerCase(); 
 
-search.addEventListener('input', searchFeature2);
-
-/*
-// Search filter function under construction
-const searchFeature = (data) => {
-    // get the data from the page
-    data.filter(employee => {
-        if (search.value.length !== 0) {
-            let userSearch = search.value.toLowerCase();
-            if (employee.first.includes(userSearch) || employee.last.includes(userSearch)) {
-                return data
-            }
-        }
-    });
-};
-*/
+    //     if(firstName.includes(userSearch) || lastName.includes(userSearch)) {
+    //     cards[i].style.display = 'block';
+    //     }
+    // }
+    // return employees;
+};    
+search.addEventListener('input', searchFeature);
 
 // Modal container under construction 
 /*
