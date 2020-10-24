@@ -98,25 +98,20 @@ search
 
 // SEARCH 
 
-const searchFeature = (employees) => {
-    console.log(employees);
-    employees.filter(emp => )
-    // const cards = document.querySelectorAll('.card');
+const searchFeature = () => {
+    const cards = document.querySelectorAll('.card');
 
-    // const firstName = employees.name.first;
-    // const lastName = employees.name.last;
+   for(let i =0; i < cards.length; i++) {
+    cards[i].style.display = 'none';
 
-    // for(let i =0; i < cards.length; i++) {
-    //     cards[i].style.display = 'none';
+    const searchfield = document.querySelector('#search-input');
+    const userSearch = searchfield.value.toLowerCase(); 
 
-    //     const searchfield = document.querySelector('#search-input');
-    //     const userSearch = searchfield.value.toLowerCase(); 
+    if(cards[i].textContent.includes(userSearch)) {
+        cards[i].style.display = 'block';
+    }
 
-    //     if(firstName.includes(userSearch) || lastName.includes(userSearch)) {
-    //     cards[i].style.display = 'block';
-    //     }
-    // }
-    // return employees;
+   }
 };    
 search.addEventListener('input', searchFeature);
 
