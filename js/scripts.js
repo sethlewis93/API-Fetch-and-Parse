@@ -54,10 +54,15 @@ const generateModalHTML = (employee) => {
 
 function addModalListeners(data) {
     gallery.addEventListener('click', (e) => {
-        const clicked = e.target;
-        clicked.className.includes('card')
-        ? console.log('yes')
-        : console.log('no')
+        if (e.target.className.includes('card')) {
+            const cards = document.querySelectorAll('.card');
+            const path = e.composedPath();
+            const card = [...cards].filter(c => path.includes(c));  
+            console.log(card);      
+            generateModalHTML(cards);           
+            } else {
+            e.preventDefault
+        }
     });
 };
 
