@@ -63,10 +63,13 @@ function addModalListeners(data) {
     gallery.addEventListener('click', (e) => {
         const modalContainer = document.querySelector('.modal-container');
         if (e.target.className.includes('card')) {
+
             const cards = document.querySelectorAll('.card');
+
             // Credit to Robert Manolis for sharing composedPath and spread techniques below
             const path = e.composedPath();
             const card = [...cards].filter(c => path.includes(c));  
+
             data.find(employee => {
                 if(card[0].textContent.includes(employee.email)) {
                     generateModalHTML(employee);
@@ -93,24 +96,19 @@ search
 
 // SEARCH 
 const searchFeature2 = () => {
-    const cards = document.getElementsByClassName('card');
-    let searchInput = document.getElementById('search-input');
-    let employeeCard = document.getElementsByClassName('card info container');
-    console.log(employeeCard.textContent)
-    let matches = [];
-    for (let i = 0; i < cards.length; i++) {
-        if (searchInput.value.length !== 0) {
-            searchInput.value.toLowerCase(); 
-          if (employeeCard.textContent.includes(searchInput.value)) {
-            matches.push(cards[i]);
-          }
-        }
-      }
-      if (matches.length === 0) {
-      gallery.insertAdjacentHTML('afterbegin', `<h3>Sorry - your search yeilded no matches`);
-      } else {
-        gallery.insertAdjacentHTML('afterbegin', `${matches}`);
-      }
+    const cards = document.querySelectorAll('.card');
+
+   for(let i =0; i < cards.length; i++) {
+    cards[i].style.display = 'none';
+
+    const searchfield = document.querySelector('#search-input');
+    const userSearch = searchfield.value.toLowerCase(); 
+
+    if(cards[i].textContent.includes(userSearch)) {
+        cards[i].style.display = 'block';
+    }
+    
+   }
 }
 
 search.addEventListener('input', searchFeature2);
