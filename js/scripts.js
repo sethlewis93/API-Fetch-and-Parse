@@ -19,6 +19,7 @@ const generateUsersHTML = (data) => {
         const card = document.createElement('div');
         gallery.appendChild(card);
         card.className = 'card';
+        card.style.display = 'block';
         card.insertAdjacentHTML('beforeend', `
           <div class="card-img-container"> <img class="card-img" src=${employee.picture.thumbnail} alt="profile picture">
           </div>
@@ -107,7 +108,7 @@ const searchFeature2 = () => {
     if(cards[i].textContent.includes(userSearch)) {
         cards[i].style.display = 'block';
     }
-    
+
    }
 }
 
