@@ -52,16 +52,26 @@ const generateModalHTML = (employee) => {
     `)
 }
 
+// still having trouble with the placement of the modal close button
 function addModalListeners(data) {
     gallery.addEventListener('click', (e) => {
         if (e.target.className.includes('card')) {
+            console.log(e.target);
             const cards = document.querySelectorAll('.card');
+            // Credit to Robert Manolis for sharing composedPath and spread techniques below
             const path = e.composedPath();
             const card = [...cards].filter(c => path.includes(c));  
-            console.log(card);      
-            generateModalHTML(cards);           
-            } else {
-            e.preventDefault
+            data.find(employee => {
+                if(card[0].textContent.includes(employee.name.last)) {
+                    generateModalHTML(employee);
+                    const modalContainer = document.querySelector('.modal-container');
+                }
+            });
+            if (e.target.id === 'modal-close-btn') {
+                modalContainer.remove();
+            }
+        } else {
+            e.preventDefault();
         }
     });
 };
