@@ -1,9 +1,10 @@
-
+const body = document.querySelector('body');
 const search = document.querySelector('.search-container')
 const gallery = document.querySelector('.gallery');
 const headerText = document.querySelector('.header-text-container');
 
 const employeeData = 'https://randomuser.me/api/?results=12&nat=us';
+let clickedProfile;
 
 document.addEventListener('DOMContentLoaded', () => {
     fetch(employeeData)
@@ -62,8 +63,6 @@ const generateModalHTML = (employee) => {
     `)
 }
 
-// still having trouble with the placement of the modal close button
-//  break this code up for readability
 function addModalListeners(data) {
     gallery.addEventListener('click', (e) => {
         const clicked = e.target;
@@ -78,30 +77,47 @@ function addModalListeners(data) {
             data.find(employee => {
                 if(card[0].textContent.includes(employee.email)) {
                     generateModalHTML(employee);
-                    console.log(employee);
+                    clickedProfile = data.indexOf(employee);
+                    newModal(data);
                 }
             });
         } else {
             e.preventDefault();
         }
+
         if (clicked.id === 'modal-close-btn') {
             modalContainer.remove();
-        }
-        if(clicked.id === 'modal-prev') {
-           if (clicked === cards[0]) {
-               console.log('first');
-           } /* else {
-               the prev modal = generateModal(employee)
-           }
-           */ 
-        }
-        if(clicked.id === 'modal-next') {
-            console.log(e.composedPath());
         }
     });
 };
 
-// Search feature in progress
+function newModal(employee) {
+
+    body.addEventListener('click', (e) => {
+        const clicked = e.target;
+
+        if(clicked.id.includes('prev')) {
+            if(clickedProfile === 0)
+            generateModalHTML(employee[11]);
+            else if (clickedProfile !== 0) {
+                generateModalHTML(employee[clickedProfile - 1]);
+            }
+            document.querySelector('.modal-container').remove();
+        }
+        
+        if(clicked.id.includes('next')) {
+            if(clickedProfile === 11)
+            generateModalHTML(employee[0]);
+            else if (clickedProfile !== 11) {
+                generateModalHTML(employee[clickedProfile + 1]);
+            }
+            document.querySelector('.modal-container').remove();
+        }
+    })
+};
+
+// SEARCH 
+
 search
     .insertAdjacentHTML('afterbegin', `
         <form action="#" method="get">                        
@@ -109,8 +125,6 @@ search
         class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
         </form>
 `);
-
-// SEARCH 
 
 const searchFeature = () => {
     const cards = document.querySelectorAll('.card');
@@ -127,33 +141,6 @@ const searchFeature = () => {
 
    }
 };    
+
 search.addEventListener('input', searchFeature);
-
-// Modal container under construction 
-/*
-
-gallery.insertAdjacentHTML('beforeend', `
-    <div class="modal-container">
-        <div class="modal">
-            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-            <div class="modal-info-container">
-                <img class="modal-img" src="" alt="profile picture">
-                    <h3 id="name" class="modal-name cap">nombre</h3>
-                    <p class="modal-text">homestarrunner</p>
-                    <p class="modal-text cap">city</p>
-                    <hr>
-                    <p class="modal-text">(555) 555-5555</p>
-                    <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
-                    <p class="modal-text">Birthday: 10/13/1993</p>
-                </div>
-            </div>
-
-            <div class="modal-btn-container">
-                        <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-                        <button type="button" id="modal-next" class="modal-next btn">Next</button>
-            </div>
-    </div>
-`);
-
-*/
 

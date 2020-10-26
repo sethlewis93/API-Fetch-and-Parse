@@ -21,3 +21,6 @@ const searchFeature2 = (data) => {
 
 search.addEventListener('input', searchFeature2);
 
+employeeCards[i] === 0 
+            ? console.log('first') // generateModalHTML(employeeCards[11]) 
+            : console.log('error') //generateModalHTML(employeeCards - 1);
