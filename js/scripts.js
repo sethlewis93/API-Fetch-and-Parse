@@ -66,11 +66,11 @@ const generateModalHTML = (employee) => {
 //  break this code up for readability
 function addModalListeners(data) {
     gallery.addEventListener('click', (e) => {
+        const clicked = e.target;
+        const cards = document.querySelectorAll('.card');
         const modalContainer = document.querySelector('.modal-container');
-        if (e.target.className.includes('card')) {
-
-            const cards = document.querySelectorAll('.card');
-
+        if (clicked.className.includes('card')) {
+        
             // Credit to Robert Manolis for sharing composedPath and spread techniques below
             const path = e.composedPath();
             const card = [...cards].filter(c => path.includes(c));  
@@ -84,13 +84,18 @@ function addModalListeners(data) {
         } else {
             e.preventDefault();
         }
-        if (e.target.id === 'modal-close-btn') {
+        if (clicked.id === 'modal-close-btn') {
             modalContainer.remove();
         }
-        if(e.target.id === 'modal-prev') {
-            console.log(e.composedPath());
+        if(clicked.id === 'modal-prev') {
+           if (clicked === cards[0]) {
+               console.log('first');
+           } /* else {
+               the prev modal = generateModal(employee)
+           }
+           */ 
         }
-        if(e.target.id === 'modal-next') {
+        if(clicked.id === 'modal-next') {
             console.log(e.composedPath());
         }
     });
