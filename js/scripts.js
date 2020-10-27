@@ -1,9 +1,9 @@
 const body = document.querySelector('body');
-const search = document.querySelector('.search-container')
 const gallery = document.querySelector('.gallery');
-const headerText = document.querySelector('.header-text-container');
+const search = document.querySelector('.search-container')
 
 const employeeData = 'https://randomuser.me/api/?results=12&nat=us';
+// Used later to track the index of modal windows
 let clickedProfile;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,9 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => data.results)
         .then(generateUsersHTML)
         .then(addModalListeners)
-        .catch(err => console.log(err));
+        .catch(err => {
+            const h3 = document.createElement('h3');
+            gallery.appendChild(h3);
+            h3.insertAdjacentHTML('afterbegin', `<h3>${err}</h3>`)
+        });
 });
 
+/**
+ * 
+ * @param {*} data: parsed JSON data retrieved from Fetch request
+ * the map method takes the data and dynmically inserts the desired props into the page
+ */
 const generateUsersHTML = (data) => {
     data.map(employee => {
         const card = document.createElement('div');
@@ -33,6 +42,50 @@ const generateUsersHTML = (data) => {
     return data;
 };
 
+/**
+ * 
+ * @param {*} data : function uses data returned from generateUsersHTML and supplies it to...
+ *  (a) open modal window corresponding to user selection using data.find() method,
+ *  (b) supply generateModalHTML with the SELECTED employee data,
+ *  (d) update the global clickedProfile index, and 
+ *  (d) supply the newModal function with the employee data for it's own use
+ */
+function addModalListeners(data) {
+    gallery.addEventListener('click', (e) => {
+
+        const clicked = e.target;
+
+        const cards = document.querySelectorAll('.card');
+        const modalContainer = document.querySelector('.modal-container');
+
+        if (clicked.className.includes('card')) {
+        
+            // Credit to Robert Manolis (FSJS Specialist) for sharing e.composedPath and [...] techniques below
+            const path = e.composedPath();
+            const card = [...cards].filter(c => path.includes(c));  
+
+            data.find(employee => {
+                if(card[0].textContent.includes(employee.email)) {
+                    generateModalHTML(employee);
+                    clickedProfile = data.indexOf(employee);
+                    newModal(data);
+                }
+            });
+        } else {
+            e.preventDefault();
+        }
+
+        if (clicked.id === 'modal-close-btn') {
+            modalContainer.remove();
+        }
+    });
+};
+
+/**
+ * 
+ * @param {*} employee : the single clicked selection whether passed after page loads or passed from newModal function 
+ *  (newModal hanldes 'next' and 'prev' buttons)
+ */
 const generateModalHTML = (employee) => {
     const modal = document.createElement('div');
     gallery.appendChild(modal);
@@ -63,39 +116,16 @@ const generateModalHTML = (employee) => {
     `)
 }
 
-function addModalListeners(data) {
-    gallery.addEventListener('click', (e) => {
-        const clicked = e.target;
-        const cards = document.querySelectorAll('.card');
-        const modalContainer = document.querySelector('.modal-container');
-        if (clicked.className.includes('card')) {
-        
-            // Credit to Robert Manolis for sharing composedPath and spread techniques below
-            const path = e.composedPath();
-            const card = [...cards].filter(c => path.includes(c));  
-
-            data.find(employee => {
-                if(card[0].textContent.includes(employee.email)) {
-                    generateModalHTML(employee);
-                    clickedProfile = data.indexOf(employee);
-                    newModal(data);
-                }
-            });
-        } else {
-            e.preventDefault();
-        }
-
-        if (clicked.id === 'modal-close-btn') {
-            modalContainer.remove();
-        }
-    });
-};
-
+/**
+ * 
+ * @param {*} employees : passed in from addModalListeners function (i.e. the full data array)
+ */
 function newModal(employees) {
 
     body.addEventListener('click', (e) => {
         const clicked = e.target;
 
+        // Conditionals if user is at beginning of the list
         if(clicked.id.includes('prev')) {
             if(clickedProfile === 0) {
                 clickedProfile = 11;
@@ -108,18 +138,17 @@ function newModal(employees) {
             }
             document.querySelector('.modal-container').remove();
         }
-        
+
+        // Conditionals if user is at end of the list
         if(clicked.id.includes('next')) {
             if(clickedProfile === 11) {
                 clickedProfile = 0;
                 generateModalHTML(employees[clickedProfile]);
                 clickedProfile += 1;
-                
             }
             else if (clickedProfile !== 11) {
                 clickedProfile += 1;
                 generateModalHTML(employees[clickedProfile]);
-                
             }
             document.querySelector('.modal-container').remove();
         }
@@ -153,4 +182,3 @@ const searchFeature = () => {
 };    
 
 search.addEventListener('input', searchFeature);
-

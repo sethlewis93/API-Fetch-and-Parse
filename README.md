@@ -11,7 +11,6 @@ Changed color of the directory emails to green to help them stand out
 
 #### To-do
 
-update background color
 photos poor quality
 prettier not working
 update error messages
