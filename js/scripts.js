@@ -90,7 +90,7 @@ const generateModalHTML = (employee) => {
     const modal = document.createElement('div');
     gallery.appendChild(modal);
 
-    //DOB formatting solution found on stack overflow https://stackoverflow.com/questions/28271904/javascript-reformat-date-string
+    // DOB formatting solution found on stack overflow https://stackoverflow.com/questions/28271904/javascript-reformat-date-string
     let DOBstamp = new Date(employee.dob.date);
     const birthday = DOBstamp.getMonth( ) + 1 +'/'+ DOBstamp.getDate( ) + '/' +DOBstamp.getFullYear( );
 
