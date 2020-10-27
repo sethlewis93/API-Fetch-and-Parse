@@ -13,11 +13,12 @@ function searchFeature(employees) {
   const searchInput = document.querySelector('#search-input').value.toLowerCase();
   let searchFilter = [];
 
-  for(let emp of employees) {
-      const firstNames = emp.name.first;
-      const lastNames = emp.name.last;
-      const fullNames = `${firstNames} ${lastNames}`;
-      searchFilter.push(fullNames);
+  for(let emp in employees) {
+      console.log(`${emp}: ${employees[emp]}`);
+      // const firstNames = emp.name.first;
+      // const lastNames = emp.name.last;
+      // const fullNames = `${firstNames} ${lastNames}`;
+      
   }
 
   for(let keys of Object.values(searchFilter)) {
@@ -25,5 +26,6 @@ function searchFeature(employees) {
           console.log(keys);
       }
   }
+};
 
-};  
+

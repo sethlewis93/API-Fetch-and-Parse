@@ -74,10 +74,6 @@ function addModalListeners(data) {
         } else {
             e.preventDefault();
         }
-
-        if (clicked.id === 'modal-close-btn') {
-            modalContainer.remove();
-        }
     });
 };
 
@@ -114,6 +110,13 @@ const generateModalHTML = (employee) => {
                     <button type="button" id="modal-next" class="modal-next btn">Next</button>
     </div>
     `)
+    
+    modal.addEventListener('click', (e) => {
+        const clicked = e.target;
+        if (clicked.id === 'modal-close-btn' || clicked.textContent === 'X') {
+            modal.remove();
+        }
+    })
 }
 
 /**
@@ -167,18 +170,15 @@ search
 
 function searchFeature() {
     const cards = document.querySelectorAll('.card');
+    const cardNames = document.querySelectorAll('.card-info-container > h3');
+    const searchText = document.querySelector('#search-input').value.toLowerCase();
 
-   for(let i =0; i < cards.length; i++) {
-    cards[i].style.display = 'none';
-
-    const searchfield = document.querySelector('#search-input');
-    const userSearch = searchfield.value.toLowerCase(); 
-
-    if(cards[i].textContent.includes(userSearch)) {
-        cards[i].style.display = 'block';
-    }
-
+    for(let i = 0; i < cards.length; i++) {     
+        cards[i].style.display = 'none';
+        if(cardNames[i].textContent.toLowerCase().includes(searchText)) {
+            cards[i].style.display = 'block';
+        }
    }
-};    
+};
 
 search.addEventListener('input', searchFeature);
