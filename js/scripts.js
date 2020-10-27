@@ -165,7 +165,7 @@ search
         </form>
 `);
 
-const searchFeature = () => {
+function searchFeature() {
     const cards = document.querySelectorAll('.card');
 
    for(let i =0; i < cards.length; i++) {
