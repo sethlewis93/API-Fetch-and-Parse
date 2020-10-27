@@ -91,25 +91,35 @@ function addModalListeners(data) {
     });
 };
 
-function newModal(employee) {
+function newModal(employees) {
 
     body.addEventListener('click', (e) => {
         const clicked = e.target;
 
         if(clicked.id.includes('prev')) {
-            if(clickedProfile === 0)
-            generateModalHTML(employee[11]);
+            if(clickedProfile === 0) {
+                clickedProfile = 11;
+                generateModalHTML(employees[clickedProfile]);
+                clickedProfile = clickedProfile - 1;
+            }
             else if (clickedProfile !== 0) {
-                generateModalHTML(employee[clickedProfile - 1]);
+                clickedProfile = clickedProfile - 1;
+                generateModalHTML(employees[clickedProfile]);
             }
             document.querySelector('.modal-container').remove();
         }
         
         if(clicked.id.includes('next')) {
-            if(clickedProfile === 11)
-            generateModalHTML(employee[0]);
+            if(clickedProfile === 11) {
+                clickedProfile = 0;
+                generateModalHTML(employees[clickedProfile]);
+                clickedProfile += 1;
+                
+            }
             else if (clickedProfile !== 11) {
-                generateModalHTML(employee[clickedProfile + 1]);
+                clickedProfile += 1;
+                generateModalHTML(employees[clickedProfile]);
+                
             }
             document.querySelector('.modal-container').remove();
         }
