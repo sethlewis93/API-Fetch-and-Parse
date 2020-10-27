@@ -7,14 +7,23 @@
 
 
 // SEARCH 
-const searchFeature2 = (data) => {
-  data.map(emp => {
-    const firstName = emp.name.first;
-    const lastName = emp.name.last;
-    const fullName = `${firstName} ${lastName}`;
+function searchFeature(employees) {
+    
+  const cards = document.querySelectorAll('.card');
+  const searchInput = document.querySelector('#search-input').value.toLowerCase();
+  let searchFilter = [];
 
-    /*
-      if fullName is the same as user input - return the matching card for that fullName
-    */
-  })
-}
+  for(let emp of employees) {
+      const firstNames = emp.name.first;
+      const lastNames = emp.name.last;
+      const fullNames = `${firstNames} ${lastNames}`;
+      searchFilter.push(fullNames);
+  }
+
+  for(let keys of Object.values(searchFilter)) {
+      if(searchInput.includes(keys)) {
+          console.log(keys);
+      }
+  }
+
+};  
