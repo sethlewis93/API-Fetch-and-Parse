@@ -82,13 +82,18 @@ function addModalListeners(data) {
  * @param {*} employee : the single clicked selection whether passed after page loads or passed from newModal function 
  *  (newModal hanldes 'next' and 'prev' buttons)
  */
-const generateModalHTML = (employee) => {
+function generateModalHTML(employee) {
     const modal = document.createElement('div');
     gallery.appendChild(modal);
 
     // DOB formatting solution found on stack overflow https://stackoverflow.com/questions/28271904/javascript-reformat-date-string
     let DOBstamp = new Date(employee.dob.date);
     const birthday = DOBstamp.getMonth( ) + 1 +'/'+ DOBstamp.getDate( ) + '/' +DOBstamp.getFullYear( );
+
+    function formatTelephone(text) {
+        const regex = /^\D*(\d{3})\D*(\d{3})\D*(\d{4})\D*$/;
+        return text.replace(regex, "($1) $2-$3");
+    }
 
     modal.className = 'modal-container';
     modal.insertAdjacentHTML('beforeend', `
@@ -100,7 +105,8 @@ const generateModalHTML = (employee) => {
             <p class="modal-text">${employee.email}</p>
             <p class="modal-text cap">${employee.location.city}</p>
             <hr>
-            <p class="modal-text">${employee.cell}</p>
+            <p class="modal-text">${formatTelephone(employee.cell)}</p>
+            <p clss="modal-text">${employee.location.street.number} ${employee.location.street.name} </p>
             <p class="modal-text">${employee.location.city}, ${employee.location.state} ${employee.location.postcode}</p>
             <p class="modal-text">${birthday}</p>
         </div>
@@ -158,8 +164,7 @@ function newModal(employees) {
     })
 };
 
-// SEARCH 
-
+// SEARCH FEATURE
 search
     .insertAdjacentHTML('afterbegin', `
         <form action="#" method="get">                        
@@ -181,4 +186,4 @@ function searchFeature() {
    }
 };
 
-search.addEventListener('input', searchFeature);
+search.addEventListener('submit', searchFeature);
