@@ -90,6 +90,7 @@ function generateModalHTML(employee) {
     let DOBstamp = new Date(employee.dob.date);
     const birthday = DOBstamp.getMonth( ) + 1 +'/'+ DOBstamp.getDate( ) + '/' +DOBstamp.getFullYear( );
 
+    // Code adapted from Treehouse Regex Course (J. Kraft)
     function formatTelephone(text) {
         const regex = /^\D*(\d{3})\D*(\d{3})\D*(\d{4})\D*$/;
         return text.replace(regex, "($1) $2-$3");
@@ -105,9 +106,9 @@ function generateModalHTML(employee) {
             <p class="modal-text">${employee.email}</p>
             <p class="modal-text cap">${employee.location.city}</p>
             <hr>
-            <p class="modal-text">${formatTelephone(employee.cell)}</p>
-            <p clss="modal-text">${employee.location.street.number} ${employee.location.street.name} </p>
+            <p clss="modal-text">${employee.location.street.number} ${employee.location.street.name}</p>
             <p class="modal-text">${employee.location.city}, ${employee.location.state} ${employee.location.postcode}</p>
+            <p class="modal-text">${formatTelephone(employee.cell)}</p>
             <p class="modal-text">${birthday}</p>
         </div>
     </div>
