@@ -3,9 +3,11 @@ const gallery = document.querySelector(".gallery");
 const search = document.querySelector(".search-container");
 
 const employeeData = "https://randomuser.me/api/?results=12&nat=us";
-// Used later to track the index of modal windows
+
+// Used below to track the index of modal windows
 let clickedProfile;
 
+// FETCH Employee data
 document.addEventListener("DOMContentLoaded", () => {
   fetch(employeeData)
     .then((response) => response.json())
@@ -22,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /**
  *
  * @param {*} data: parsed JSON data retrieved from Fetch request
- * the map method takes the data and dynmically inserts the desired props into the page
+ * map() dynmically inserts the desired props into the page
  */
 const generateUsersHTML = (data) => {
   data.map((employee) => {
@@ -47,9 +49,9 @@ const generateUsersHTML = (data) => {
 
 /**
  *
- * @param {*} data : function uses data returned from generateUsersHTML and supplies it to...
- *  (a) open modal window corresponding to user selection using data.find() method,
- *  (b) supply generateModalHTML with the SELECTED employee data,
+ * @param {*} data : function uses data returned from generateUsersHTML() and supplies it to...
+ *  (a) open modal window corresponding to user selection using data.find(),
+ *  (b) supply generateModalHTML() with the SELECTED employee data,
  *  (d) update the global clickedProfile index, and
  *  (d) supply the newModal function with the employee data for it's own use
  */
@@ -80,7 +82,7 @@ function addModalListeners(data) {
 
 /**
  *
- * @param {*} employee : the single clicked selection whether passed after page loads or passed from newModal function
+ * @param {*} employee : the single clicked selection, whether passed after page loads or passed from newModal function
  *  (newModal hanldes 'next' and 'prev' buttons)
  */
 function generateModalHTML(employee) {
@@ -103,6 +105,7 @@ function generateModalHTML(employee) {
     return text.replace(regex, "($1) $2-$3");
   }
 
+  // Modal structure  and data insertion
   modal.className = "modal-container";
   modal.insertAdjacentHTML(
     "beforeend",
@@ -136,6 +139,7 @@ function generateModalHTML(employee) {
     `
   );
 
+  // Close modal listener
   modal.addEventListener("click", (e) => {
     const clicked = e.target;
     if (clicked.id === "modal-close-btn" || clicked.textContent === "X") {
@@ -146,18 +150,23 @@ function generateModalHTML(employee) {
 
 /**
  *
- * @param {*} employees : passed in from addModalListeners function (i.e. the full data array)
+ * @param {*} employees : passed in from addModalListeners() (i.e. the full data array)
  */
 function newModal(employees) {
+  // JS EVENTS & CONDITIONALS FOR PROFILE MODAL
   body.addEventListener("click", (e) => {
     const clicked = e.target;
 
-    // Conditionals if user is at beginning of the list
+    // If the employee selected is the first of the list ...
+    // ... and the user selects "previous"...
     if (clicked.id.includes("prev")) {
       if (clickedProfile === 0) {
+        // ... display the employee at the end of the list ...
         clickedProfile = 11;
         generateModalHTML(employees[clickedProfile]);
         clickedProfile = clickedProfile - 1;
+        // ... else, if the employ selected is not the first of the list ...
+        // ... navigate to previous employee without changing any indecies.
       } else if (clickedProfile !== 0) {
         clickedProfile = clickedProfile - 1;
         generateModalHTML(employees[clickedProfile]);
@@ -165,12 +174,15 @@ function newModal(employees) {
       document.querySelector(".modal-container").remove();
     }
 
-    // Conditionals if user is at end of the list
+    // If the employee selected is the last on the list ...
+    // ... and the user selects "next" ...
     if (clicked.id.includes("next")) {
       if (clickedProfile === 11) {
+        // ... display the employee at the begining of the list ...
         clickedProfile = 0;
         generateModalHTML(employees[clickedProfile]);
         clickedProfile += 1;
+        // ... else, navigate to next employee without changing any indecies.
       } else if (clickedProfile !== 11) {
         clickedProfile += 1;
         generateModalHTML(employees[clickedProfile]);
@@ -191,15 +203,19 @@ search.insertAdjacentHTML(
 `
 );
 
+
 function searchFeature() {
+  // Store values of each employee name and translate to lowercase.
   const cards = document.querySelectorAll(".card");
   const cardNames = document.querySelectorAll(".card-info-container > h3");
   const searchText = document
     .querySelector("#search-input")
     .value.toLowerCase();
 
+  // Matching names to be pushed into array. Cards will be filtered on the UI.
   let namesMatch = [];
 
+  // Logic for filtering employee names.
   for (let i = 0; i < cards.length; i++) {
     cards[i].style.display = "none";
     if (cardNames[i].textContent.toLowerCase().includes(searchText)) {
