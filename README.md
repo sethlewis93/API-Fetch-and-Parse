@@ -12,7 +12,7 @@ Once all 12 employees are displayed on the page, the user can select each indivi
 
 ## Search
 
-The search feature filters the directory by employee name.The modal toggle feature allows a user to toggle back and forth between the employees displayed on the page once a single modal window is open.
+The search feature filters the directory by employee name. The modal toggle feature allows a user to toggle back and forth between the employees displayed on the page once a single modal window is open.
 
 ## To Test
 
